@@ -22,7 +22,7 @@ export default function App() {
   const addTask = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      alert("Please enter a task name.");
+      alert("Please enter a task name");
       return;
     }
     try {
@@ -73,64 +73,64 @@ export default function App() {
   };
 
   return (
-    <>
-      <form>
+    <div className="app-container">
+      <form className="task-form" onSubmit={addTask}>
         <input
           type="text"
-          placeholder="name"
-          name="name"
+          placeholder="Task Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
-          placeholder="description"
-          name="desc"
+          placeholder="Description"
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
         />
-        <input
-          type="checkbox"
-          name="completed"
-          checked={completed}
-          onChange={() => setCompleted(!completed)}
-        />
+        <label>
+          Completed:
+          <input
+            type="checkbox"
+            checked={completed}
+            onChange={() => setCompleted(!completed)}
+          />
+        </label>
         {editing ? (
-          <>
+          <div className="edit-buttons">
             <button type="button" onClick={() => updateTask(editing)}>
               Update Task
             </button>
             <button type="button" onClick={handleCancelEdit}>
               Cancel
             </button>
-          </>
+          </div>
         ) : (
-          <button type="submit" onClick={addTask}>
-            Add New Task
-          </button>
+          <button type="submit">Add Task</button>
         )}
       </form>
 
-      {tasks.length > 0 ? (
-        tasks.map((task) => (
-          <div key={task._id}>
-            <h4>{task.name}</h4>
-            <p>{task.desc}</p>
-            <p>{task.completed ? "Completed" : "Not Completed"}</p>
-            <button onClick={() => handleEdit(task)}>Edit Task</button>
-            <button
-              className="delete-btn"
-              onClick={() => {
-                deleteTask(task._id);
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        ))
-      ) : (
-        <p>No Tasks</p>
-      )}
-    </>
+      <div className="tasks-container">
+        {tasks.length > 0 ? (
+          tasks.map((task) => (
+            <div className="task" key={task._id}>
+              <h4>{task.name}</h4>
+              <p>{task.desc}</p>
+              <p>{task.completed ? "Completed" : "Not Completed"}</p>
+              <div className="task-buttons">
+                <button onClick={() => handleEdit(task)}>Edit</button>
+                <button
+                  className="delete-btn"
+                  onClick={() => deleteTask(task._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No Tasks</p>
+        )}
+      </div>
+    </div>
   );
 }
